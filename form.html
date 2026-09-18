@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>预约免费 1 对 1 留学规划咨询</title>
+<!-- 提交即自动保存，无需发送给老师：
+     1) 部署到 GitHub Pages 后，家长扫码打开此页面填写提交，
+        数据通过 Formsubmit.co 自动发送到您邮箱（首次需邮件确认激活）。
+        在邮箱中可查看/搜索/导出所有预约记录 —— 邮箱即"数据库"。
+     2) 本机直接打开本文件填写时，数据只存在本机浏览器 localStorage，
+        点页面底部"查看已填记录（本机）"可查看/复制/清空。
+     3) 未配置 BOOKING_API 或提交失败时，自动降级为本机保存，不丢数据。 -->
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#f2f5fa; font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; color:#24324d; padding:0 0 60px; }
+  .head { background:linear-gradient(160deg,#142e5c,#2a5cad); color:#fff; padding:34px 22px 30px; text-align:center; }
+  .head h1 { font-size:24px; letter-spacing:1px; }
+  .head p { margin-top:10px; font-size:14px; opacity:.88; }
+  .wrap { max-width:480px; margin:0 auto; padding:16px 16px 0; }
+  .card { background:#fff; border-radius:14px; padding:20px 18px; margin-top:14px; box-shadow:0 2px 10px rgba(20,46,92,.06); }
+  .card h2 { font-size:17px; color:#142e5c; margin-bottom:14px; }
+  label { display:block; font-size:15px; font-weight:600; margin:14px 0 6px; }
+  label .req { color:#d64545; margin-left:2px; }
+  input[type=text], select, textarea { width:100%; border:1.5px solid #d7dfee; border-radius:9px; padding:11px 12px; font-size:16px; background:#fbfcff; }
+  textarea { min-height:70px; resize:vertical; }
+  select[multiple] { min-height:150px; padding:8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .chip { position:relative; }
+  .chip input { position:absolute; opacity:0; width:0; height:0; }
+  .chip span { display:inline-block; padding:8px 14px; border:1.5px solid #c8d4ea; border-radius:999px; font-size:14px; color:#41537a; background:#fff; }
+  .chip input:checked + span { background:#1e4487; border-color:#1e4487; color:#fff; }
+  .btn { display:block; width:100%; margin-top:22px; background:#1e4487; color:#fff; border:none; border-radius:12px; padding:15px; font-size:17px; font-weight:700; letter-spacing:1px; }
+  .btn:active { opacity:.85; }
+  .btn:disabled { opacity:.6; }
+  .tip { text-align:center; font-size:12px; color:#8b98b3; margin-top:12px; line-height:1.7; }
+  #result { display:none; }
+  #result .ok { background:#eef8f0; border:1.5px solid #9fd4ab; color:#217a3c; border-radius:12px; padding:14px; font-size:15px; line-height:1.7; }
+  #result .ok.warn { background:#fff8e8; border-color:#e8cf94; color:#8a6116; }
+  #result pre { white-space:pre-wrap; background:#f6f8fc; border:1px solid #e3eaf5; border-radius:10px; padding:14px; font-size:14px; margin-top:12px; font-family:inherit; }
+  .records { max-width:480px; margin:26px auto 0; padding:0 16px; }
+  .records .toggle { background:none; border:none; color:#8b98b3; font-size:12px; text-decoration:underline; }
+  #recList { display:none; background:#fff; border-radius:12px; padding:14px; margin-top:10px; font-size:13px; color:#41537a; }
+  #recList pre { white-space:pre-wrap; max-height:260px; overflow:auto; }
+  #recList .row { margin-top:10px; display:flex; gap:10px; }
+  #recList button { flex:1; border:1.5px solid #1e4487; background:#fff; color:#1e4487; border-radius:8px; padding:8px; font-size:13px; }
+  #recList .hint { margin-top:10px; font-size:12px; color:#8b98b3; line-height:1.7; }
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1>预约免费 1 对 1 留学规划咨询</h1>
+  <p>30 分钟 · 高中申请海外名校路线梳理 · 提交即完成预约</p>
+</div>
+
+<div class="wrap">
+  <form id="leadForm" name="booking" method="POST" onsubmit="return submitLead(event)">
+    <!-- Formsubmit.co 配置字段 -->
+    <input type="hidden" name="_subject" value="【新预约】留学规划咨询预约">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <p style="display:none"><label>请勿填写：<input name="extra_field"></label></p>
+
+    <div class="card">
+      <h2>孩子情况</h2>
+
+      <label>怎么称呼您？<span class="req">*</span></label>
+      <input type="text" id="parent" name="parent" placeholder="如：王女士 / 张爸爸" required>
+
+      <label>孩子年级<span class="req">*</span></label>
+      <select id="grade" name="grade" required>
+        <option value="">请选择</option>
+        <option>初一</option><option>初二</option><option>初三</option>
+        <option>高一</option><option>高二</option><option>高三</option>
+        <option>其他</option>
+      </select>
+
+      <label>目前学校类型</label>
+      <select id="schoolType" name="schoolType">
+        <option value="">请选择</option>
+        <option>公办</option><option>民办</option><option>国际学校</option><option>海外学校</option>
+      </select>
+
+      <label>英语现状</label>
+      <select id="english" name="english">
+        <option value="">请选择</option>
+        <option>还没考过，校内中等</option>
+        <option>校内较好</option>
+        <option>已有雅思/托福成绩</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <h2>意向方向</h2>
+
+      <label>感兴趣的国家/地区（可多选）</label>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" name="country" value="美国"><span>美国</span></label>
+        <label class="chip"><input type="checkbox" name="country" value="英国"><span>英国</span></label>
+        <label class="chip"><input type="checkbox" name="country" value="澳洲"><span>澳洲</span></label>
+        <label class="chip"><input type="checkbox" name="country" value="加拿大"><span>加拿大</span></label>
+        <label class="chip"><input type="checkbox" name="country" value="新加坡"><span>新加坡</span></label>
+        <label class="chip"><input type="checkbox" name="country" value="中国香港"><span>中国香港</span></label>
+        <label class="chip"><input type="checkbox" name="country" value="还没想好"><span>还没想好</span></label>
+      </div>
+
+      <label>最想了解的内容（可多选）</label>
+      <div class="chips">
+        <label class="chip"><input type="checkbox" name="topic" value="整体规划路线"><span>整体规划路线</span></label>
+        <label class="chip"><input type="checkbox" name="topic" value="选校定位"><span>选校定位</span></label>
+        <label class="chip"><input type="checkbox" name="topic" value="文书辅导"><span>文书辅导</span></label>
+        <label class="chip"><input type="checkbox" name="topic" value="语言备考"><span>语言备考</span></label>
+        <label class="chip"><input type="checkbox" name="topic" value="转轨可行性"><span>转轨可行性</span></label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>联系方式</h2>
+
+      <label>手机或微信号<span class="req">*</span></label>
+      <input type="text" id="contact" name="contact" placeholder="用于老师与您确认咨询时间" required>
+
+      <label>方便咨询的日期（可多选，按 Ctrl 多选）<span class="req">*</span></label>
+      <select id="daySelect" name="day" multiple size="7"></select>
+
+      <label>上午时间段（每段 30 分钟，可不选）</label>
+      <select id="slotAM" name="slotAM"></select>
+
+      <label>下午/晚上时间段（每段 30 分钟，可不选）</label>
+      <select id="slotPM" name="slotPM"></select>
+
+      <label>想补充的问题（选填）</label>
+      <textarea id="note" name="note" placeholder="例如：孩子高二想转 A-Level，还来得及吗？"></textarea>
+
+      <button class="btn" type="submit" id="submitBtn">提交预约</button>
+      <p class="tip">提交后信息自动保存，老师将尽快与您确认咨询时间。<br>我们仅将信息用于确认咨询时间，不作他用。</p>
+    </div>
+  </form>
+
+  <div id="result">
+    <div class="card">
+      <h2>预约已提交</h2>
+      <div class="ok" id="okMsg">✅ 提交成功！老师将尽快与您联系，确认咨询时间。</div>
+      <pre id="output"></pre>
+      <p class="tip">如需修改信息，请刷新页面重新提交，以最新一次为准。</p>
+    </div>
+  </div>
+</div>
+
+<div class="records">
+  <button class="toggle" type="button" onclick="toggleRecords()">查看已填记录（本机）</button>
+  <div id="recList">
+    <div id="recCount">共 0 条</div>
+    <pre id="recPre">暂无记录</pre>
+    <div class="row">
+      <button type="button" onclick="copyAll()">复制全部记录</button>
+      <button type="button" onclick="clearRecords()">清空本机记录</button>
+    </div>
+    <p class="hint">本机记录只保存在当前设备的浏览器里（换设备或清缓存后不可见）。<br>线上提交的记录会自动发送到老师邮箱，在邮箱中可查看/搜索/导出全部预约。</p>
+  </div>
+</div>
+
+<script>
+/* ===== 部署配置（必改）=====
+ * 把下面 BOOKING_API 换成你的 Formsubmit.co 地址，形如：
+ *   https://formsubmit.co/你的邮箱@example.com
+ * 首次有人提交时，Formsubmit.co 会发一封确认邮件到该邮箱，点击确认即激活。
+ * 之后每次提交都会自动发送到该邮箱（邮箱即"数据库"，可查看/搜索/导出）。
+ * 留空或提交失败时，自动降级为本机保存，不丢数据。
+ */
+var BOOKING_API = "https://formsubmit.co/YOUR_EMAIL@example.com";   // ← 改成你的邮箱
+
+function vals(name){
+  var arr = Array.prototype.map.call(document.querySelectorAll('input[name="'+name+'"]:checked'), function(el){ return el.value; });
+  var sel = document.querySelector('select[name="'+name+'"]');
+  if (sel) Array.prototype.forEach.call(sel.selectedOptions, function(opt){ if (opt.value) arr.push(opt.value); });
+  return arr;
+}
+
+// 生成日期选项（9月20日起一个月）和半小时时间段下拉选项（上午 09:00–12:30，下午/晚上 13:00–21:30）
+(function initTimeOptions(){
+  var w = ["周日","周一","周二","周三","周四","周五","周六"];
+  var daySel = document.getElementById("daySelect");
+  var start = new Date(2026, 8, 20); // 2026年9月20日
+  for (var i = 0; i < 31; i++) {
+    var dt = new Date(start); dt.setDate(start.getDate() + i);
+    var label = (dt.getMonth() + 1) + "月" + dt.getDate() + "日 " + w[dt.getDay()];
+    var op = document.createElement("option");
+    op.value = label; op.textContent = label;
+    daySel.appendChild(op);
+  }
+  function p(n){ return (n < 10 ? "0" : "") + n; }
+  function fillSlots(id, from, to){
+    var sel = document.getElementById(id);
+    var ph = document.createElement("option");
+    ph.value = ""; ph.textContent = "不选";
+    sel.appendChild(ph);
+    for (var h = from; h <= to; h++) {
+      var ends = [["00", p(h) + ":30"]];
+      if (h < to) ends.push(["30", p(h + 1) + ":00"]);
+      for (var j = 0; j < ends.length; j++) {
+        var v = p(h) + ":" + ends[j][0] + "-" + ends[j][1];
+        var op = document.createElement("option");
+        op.value = v; op.textContent = v;
+        sel.appendChild(op);
+      }
+    }
+  }
+  fillSlots("slotAM", 9, 12);
+  fillSlots("slotPM", 13, 21);
+})();
+
+function buildText(){
+  var g = function(id){ return document.getElementById(id).value || "未填"; };
+  var c = vals("country"), t = vals("topic");
+  var d = vals("day");
+  var am = document.getElementById("slotAM").value;
+  var pm = document.getElementById("slotPM").value;
+  var s = (am ? [am] : []).concat(pm ? [pm] : []);
+  return "【免费规划咨询预约】\n"
+    + "称呼：" + g("parent") + "\n"
+    + "孩子年级：" + g("grade") + "\n"
+    + "学校类型：" + g("schoolType") + "\n"
+    + "英语现状：" + g("english") + "\n"
+    + "意向国家：" + (c.length ? c.join("、") : "还没想好") + "\n"
+    + "想了解：" + (t.length ? t.join("、") : "未填") + "\n"
+    + "联系方式：" + g("contact") + "\n"
+    + "预约时间：" + (d.length ? d.join("、") : "未选") + (s.length ? " " + s.join("、") : "（时段未选）") + "\n"
+    + "补充：" + g("note");
+}
+
+function saveLocal(text){
+  try {
+    var arr = JSON.parse(localStorage.getItem("leads") || "[]");
+    arr.push({ time: new Date().toLocaleString(), text: text });
+    localStorage.setItem("leads", JSON.stringify(arr));
+    return true;
+  } catch(e){ return false; }
+}
+
+async function submitLead(e){
+  e.preventDefault();
+  if (!vals("day").length) {
+    alert("请先选择您方便咨询的日期");
+    document.getElementById("daySelect").scrollIntoView({ behavior:"smooth", block:"center" });
+    return;
+  }
+  var btn = document.getElementById("submitBtn");
+  btn.disabled = true; btn.textContent = "提交中…";
+
+  var text = buildText();
+  saveLocal(text);
+
+  // 尝试提交到 Formsubmit.co（未配置 BOOKING_API 或本地 file:// 打开时会失败，不影响本机保存）
+  var online = false;
+  if (BOOKING_API && BOOKING_API.indexOf("YOUR_EMAIL") === -1) {
+    try {
+      var formData = new FormData(document.getElementById("leadForm"));
+      // 将多选字段拼成逗号分隔字符串（Formsubmit.co 不支持重复字段名）
+      var countries = vals("country"); formData.delete("country"); formData.append("country", countries.join("、"));
+      var topics = vals("topic"); formData.delete("topic"); formData.append("topic", topics.join("、"));
+      var days = vals("day"); formData.delete("day"); formData.append("day", days.join("、"));
+      var res = await fetch(BOOKING_API, { method:"POST", headers:{ "Accept":"application/json" }, body: formData });
+      online = res.ok;
+    } catch(err){ online = false; }
+  }
+
+  var ok = document.getElementById("okMsg");
+  if (online) {
+    ok.className = "ok";
+    ok.textContent = "✅ 提交成功！老师将尽快与您联系，确认咨询时间。";
+  } else {
+    ok.className = "ok warn";
+    ok.textContent = "✅ 已保存到本机。请截图或复制下方内容发给老师微信，完成预约。";
+  }
+
+  document.getElementById("output").textContent = text;
+  document.getElementById("leadForm").style.display = "none";
+  document.getElementById("result").style.display = "block";
+  window.scrollTo(0,0);
+}
+
+function doCopy(text, cb){
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(cb, function(){ fallbackCopy(text); cb(); });
+  } else { fallbackCopy(text); cb(); }
+}
+function fallbackCopy(text){
+  var ta = document.createElement("textarea");
+  ta.value = text; document.body.appendChild(ta);
+  ta.select(); try { document.execCommand("copy"); } catch(e){}
+  document.body.removeChild(ta);
+}
+
+function toggleRecords(){
+  var box = document.getElementById("recList");
+  var show = box.style.display !== "block";
+  box.style.display = show ? "block" : "none";
+  if (show) renderRecords();
+}
+function renderRecords(){
+  var arr = JSON.parse(localStorage.getItem("leads") || "[]");
+  document.getElementById("recCount").textContent = "共 " + arr.length + " 条";
+  document.getElementById("recPre").textContent = arr.length ? arr.map(function(r){ return "—" + r.time + "—\n" + r.text; }).join("\n\n") : "暂无记录";
+}
+function copyAll(){
+  var arr = JSON.parse(localStorage.getItem("leads") || "[]");
+  if (!arr.length) { alert("暂无记录"); return; }
+  doCopy(arr.map(function(r){ return "—" + r.time + "—\n" + r.text; }).join("\n\n"), function(){ alert("已复制全部记录"); });
+}
+function clearRecords(){ if (confirm("确定清空本机保存的记录？")) { localStorage.removeItem("leads"); renderRecords(); } }
+</script>
+
+</body>
+</html>
