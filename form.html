@@ -164,12 +164,12 @@
 <script>
 /* ===== 部署配置（必改）=====
  * 把下面 BOOKING_API 换成你的 Formsubmit.co 地址，形如：
- *   https://formsubmit.co/1216696072@qq.com
+ *   https://formsubmit.co/allforplayb@gmail.com
  * 首次有人提交时，Formsubmit.co 会发一封确认邮件到该邮箱，点击确认即激活。
  * 之后每次提交都会自动发送到该邮箱（邮箱即"数据库"，可查看/搜索/导出）。
  * 留空或提交失败时，自动降级为本机保存，不丢数据。
  */
-var BOOKING_API = "https://formsubmit.co/YOUR_EMAIL@example.com";   // ← 改成你的邮箱
+var BOOKING_API = "https://formsubmit.co/1216696072@qq.com";   // ← 改成你的邮箱
 
 function vals(name){
   var arr = Array.prototype.map.call(document.querySelectorAll('input[name="'+name+'"]:checked'), function(el){ return el.value; });

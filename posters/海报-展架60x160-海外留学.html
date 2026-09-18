@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=600">
+<title>王老师国际课程私教 · 海外留学海报（字体增大版）</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #0d2847;
+    --navy-mid: #1a3a5c;
+    --gold: #c9a961;
+    --gold-light: #e0c886;
+    --gold-deep: #b8943e;
+    --cream: #f7f3ec;
+    --cream-dark: #ede7da;
+    --white: #ffffff;
+    --text-mid: #4a5a72;
+    --text-light: #8a96a8;
+  }
+  body {
+    width: 600px; margin: 0 auto;
+    background: #d8d4cc;
+    font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .poster {
+    width: 600px; height: 1600px;
+    background: var(--cream);
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+
+  /* HERO */
+  .hero {
+    height: 380px; position: relative; flex-shrink: 0;
+    background: url('../assets/big-ben.jpg') center 30% / cover no-repeat, var(--navy);
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(8,29,54,0.30) 0%, rgba(8,29,54,0.52) 55%, rgba(8,29,54,0.90) 100%);
+  }
+  .hero-top {
+    position: relative; display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 32px 0;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark {
+    width: 44px; height: 44px; border: 2px solid var(--gold); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 22px; font-weight: 700;
+  }
+  .brand-name { color: var(--white); font-size: 20px; font-weight: 600; letter-spacing: 2px; }
+  .hero-tag {
+    color: var(--gold-light); font-size: 15px; letter-spacing: 1.5px;
+    border: 1px solid rgba(201,169,97,0.5); padding: 4px 12px; border-radius: 2px;
+  }
+  .hero-body { position: absolute; left: 32px; right: 32px; bottom: 30px; }
+  .hero-eyebrow { color: var(--gold); font-size: 17px; letter-spacing: 4px; margin-bottom: 10px; font-weight: 500; }
+  .hero-title { color: var(--white); font-size: 48px; font-weight: 800; line-height: 1.15; letter-spacing: 1px; margin-bottom: 8px; }
+  .hero-title em { font-style: normal; color: var(--gold); }
+  .hero-sub { color: rgba(255,255,255,0.85); font-size: 19px; line-height: 1.5; letter-spacing: 0.5px; max-width: 520px; }
+  .hero-stats { display: flex; gap: 26px; margin-top: 16px; }
+  .stat { display: flex; flex-direction: column; }
+  .stat-num { color: var(--gold); font-size: 29px; font-weight: 800; line-height: 1; }
+  .stat-label { color: rgba(255,255,255,0.72); font-size: 15px; margin-top: 5px; letter-spacing: 1px; }
+
+  /* SECTION HEAD */
+  .section-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
+  .section-head .bar { width: 5px; height: 24px; background: var(--gold); border-radius: 1px; align-self: center; }
+  .section-head h2 { color: var(--navy); font-size: 27px; font-weight: 700; letter-spacing: 1px; }
+  .section-head .en { color: var(--text-light); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; margin-left: auto; }
+
+  /* POINTS */
+  .points { background: var(--cream); padding: 20px 32px 16px; flex-shrink: 0; }
+  .point-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .point-card {
+    background: var(--white); border-radius: 10px; padding: 12px 14px;
+    box-shadow: 0 2px 10px rgba(13,40,71,0.06); border-left: 3px solid var(--gold);
+  }
+  .point-icon {
+    width: 30px; height: 30px; background: rgba(201,169,97,0.12); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 7px;
+  }
+  .point-icon svg { width: 16px; height: 16px; }
+  .point-card h3 { color: var(--navy); font-size: 19px; font-weight: 700; margin-bottom: 4px; }
+  .point-card p { color: var(--text-mid); font-size: 16px; line-height: 1.45; }
+  .points-slogan { margin-top: 12px; text-align: center; color: var(--gold-deep); font-size: 16.5px; font-weight: 600; letter-spacing: 2px; }
+  .cases-slogan { margin-top: 12px; text-align: center; color: var(--gold); font-size: 17px; font-weight: 600; letter-spacing: 3px; }
+
+  /* CASES */
+  .cases { background: var(--navy-mid); padding: 20px 32px 14px; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  .cases .section-head h2 { color: var(--white); }
+  .cases .section-head .en { color: rgba(255,255,255,0.4); }
+  .case-list { display: flex; flex-direction: column; gap: 8px; flex: 1; justify-content: center; }
+  .case-item {
+    display: flex; gap: 12px; background: rgba(255,255,255,0.07); border-radius: 10px;
+    padding: 8px 12px; border: 1px solid rgba(201,169,97,0.15);
+  }
+  .case-badge {
+    flex-shrink: 0; width: 58px; height: 58px; border-radius: 10px; background: var(--gold);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--white);
+  }
+  .case-badge .rank { font-size: 13px; font-weight: 600; letter-spacing: 0.5px; }
+  .case-badge .school { font-size: 15px; font-weight: 800; line-height: 1; margin-top: 2px; }
+  .case-info { flex: 1; }
+  .case-info .line1 { color: var(--white); font-size: 18px; font-weight: 600; margin-bottom: 2px; }
+  .case-info .line1 .name { color: var(--gold-light); }
+  .case-info .line2 { color: rgba(255,255,255,0.95); font-size: 16px; line-height: 1.4; }
+  .case-info .line2 .hl { color: var(--gold); font-weight: 600; }
+
+  /* QR */
+  .qr-section { background: var(--cream); padding: 20px 32px 16px; flex-shrink: 0; }
+  .qr-grid { display: flex; gap: 14px; }
+  .qr-card {
+    flex: 1; background: var(--white); border-radius: 12px; padding: 14px 12px 12px;
+    text-align: center; box-shadow: 0 2px 12px rgba(13,40,71,0.06);
+  }
+  .qr-card .qr-title { color: var(--navy); font-size: 19px; font-weight: 700; margin-bottom: 8px; letter-spacing: 1px; }
+  .qr-placeholder {
+    width: 100px; height: 100px; margin: 0 auto 8px;
+    border: 2px dashed rgba(201,169,97,0.4); border-radius: 8px; background: rgba(201,169,97,0.05);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-light); font-size: 15px; letter-spacing: 1px;
+  }
+  .qr-img { width: 100px; height: 100px; margin: 0 auto 8px; border-radius: 8px; display: block; }
+  .qr-card .qr-desc { color: var(--text-mid); font-size: 16px; line-height: 1.4; }
+  .qr-card .qr-desc strong { color: var(--navy); }
+
+  /* CTA */
+  .cta { background: var(--white); padding: 16px 32px 14px; text-align: center; flex-shrink: 0; border-top: 3px solid var(--gold); }
+  .cta-headline { color: var(--navy); font-size: 22px; font-weight: 800; letter-spacing: 1px; margin-bottom: 5px; }
+  .cta-headline em { font-style: normal; color: var(--gold-deep); }
+  .cta-sub { color: var(--text-mid); font-size: 16px; letter-spacing: 1px; margin-bottom: 8px; }
+  .cta-tag {
+    display: inline-block; background: var(--cream-dark); color: var(--navy);
+    font-size: 16px; font-weight: 600; padding: 6px 16px; border-radius: 20px; letter-spacing: 1px;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--cream-dark); padding: 10px 32px; flex-shrink: 0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-left { color: var(--text-mid); font-size: 14.5px; letter-spacing: 1px; }
+  .footer-right { color: var(--gold-deep); font-size: 14.5px; letter-spacing: 2px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <section class="hero">
+    <div class="hero-top">
+      <div class="brand">
+        <div class="brand-mark">王</div>
+        <div class="brand-name">国际课程私教</div>
+      </div>
+      <div class="hero-tag">MATH · PHYSICS · IB/AL/DSE/AP</div>
+    </div>
+    <div class="hero-body">
+      <div class="hero-eyebrow">— 兰亭英才 · 免费开放咨询 —</div>
+      <div class="hero-title">国际课程<em>数学物理</em><br>一对一私教</div>
+      <div class="hero-sub">DSE / Alevel / IB / AP 数学&物理，从课内辅导到全程跟。</div>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-num">7年+</div>
+          <div class="stat-label">国际课程教学</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">1对1</div>
+          <div class="stat-label">个性化定制</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">多国/地区</div>
+          <div class="stat-label">港英美加澳名校</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="points">
+    <div class="section-head">
+      <div class="bar"></div>
+      <h2>私教不一样的地方</h2>
+      <div class="en">WHY ME</div>
+    </div>
+    <div class="point-grid">
+      <div class="point-card">
+        <div class="point-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#c9a961" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <h3>全科全覆盖</h3>
+        <p>DSE / Alevel / IB / AP 数学&物理都能教，无缝衔接不同体系。</p>
+      </div>
+      <div class="point-card">
+        <div class="point-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#c9a961" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <h3>课内到申请</h3>
+        <p>不止教课内知识，同时提供选课规划、择校指导、申请衔接一条龙。</p>
+      </div>
+      <div class="point-card" style="grid-column: 1 / -1;">
+        <div class="point-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#c9a961" stroke-width="2"><path d="M3 21v-2a4 4 0 0 1 4-4h14"/><circle cx="9" cy="7" r="4"/><path d="M22 11l-3-3-3 3"/></svg>
+        </div>
+        <h3>在校生来自名校</h3>
+        <p>现教学生来自广州贝赛斯、加拿大外籍子女学校、新桥国际、暨大港澳子弟、斐特思、执信国际部。</p>
+      </div>
+    </div>
+    <div class="points-slogan">✦ 选课 · 规划 · 申请，全程陪伴 ✦</div>
+  </section>
+
+  <section class="cases">
+    <div class="section-head">
+      <div class="bar"></div>
+      <h2>带过的学生</h2>
+      <div class="en">STUDENTS I COACHED</div>
+    </div>
+    <div class="case-list">
+      <div class="case-item">
+        <div class="case-badge"><div class="rank">DSE</div><div class="school">港科大</div></div>
+        <div class="case-info">
+          <div class="line1"><span class="name">郭同学</span> · 2026毕业 · G10-G12（3年）</div>
+          <div class="line2">DSE数学&物理 · 录取 <span class="hl">香港科技大学</span></div>
+        </div>
+      </div>
+      <div class="case-item">
+        <div class="case-badge"><div class="rank">IB</div><div class="school">伯克利</div></div>
+        <div class="case-info">
+          <div class="line1"><span class="name">唐同学</span> · 2025毕业 · G9-G12（4年）</div>
+          <div class="line2">IB数学&物理 · 录取 <span class="hl">加州伯克利</span></div>
+        </div>
+      </div>
+      <div class="case-item">
+        <div class="case-badge"><div class="rank">Alevel</div><div class="school">LSE</div></div>
+        <div class="case-info">
+          <div class="line1"><span class="name">关同学</span> · 2023毕业 · G12（1年）</div>
+          <div class="line2">Alevel数学 · 录取 <span class="hl">英国伦敦政治经济学院</span></div>
+        </div>
+      </div>
+      <div class="case-item">
+        <div class="case-badge"><div class="rank">Alevel</div><div class="school">多伦多</div></div>
+        <div class="case-info">
+          <div class="line1"><span class="name">左同学</span> · 2023毕业 · G12（1年）</div>
+          <div class="line2">Alevel物理 · 录取 <span class="hl">加拿大多伦多大学</span></div>
+        </div>
+      </div>
+      <div class="case-item">
+        <div class="case-badge"><div class="rank">Alevel</div><div class="school">格拉斯哥</div></div>
+        <div class="case-info">
+          <div class="line1"><span class="name">林同学</span> · 2026毕业 · G12（1年）</div>
+          <div class="line2">Alevel数学&物理 · 录取 <span class="hl">英国格拉斯哥艺术学院</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="cases-slogan">— 下一个名校录取，也许就是你 —</div>
+  </section>
+
+  <section class="qr-section">
+    <div class="section-head">
+      <div class="bar"></div>
+      <h2>扫码找我</h2>
+      <div class="en">SCAN ME</div>
+    </div>
+    <div class="qr-grid">
+      <div class="qr-card">
+        <div class="qr-title">加群交流</div>
+        <img class="qr-img" src="../qr-codes/qr-group-overseas.jpg" alt="扫码加群">
+        <div class="qr-desc"><strong>扫码加入交流群</strong><br>学情交流 · 答疑分享</div>
+      </div>
+      <div class="qr-card">
+        <div class="qr-title">预约咨询</div>
+        <img class="qr-img" src="../qr-codes/qr-booking.png" alt="扫码预约咨询">
+        <div class="qr-desc"><strong>扫码预约咨询</strong><br>免费1对1规划咨询</div>
+      </div>
+      <div class="qr-card">
+        <div class="qr-title">联系老师</div>
+        <img class="qr-img" src="../qr-codes/qr-teacher.jpg" alt="扫码加老师微信">
+        <div class="qr-desc"><strong>扫码加老师微信</strong><br>1对1即时沟通</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="cta-headline">现场预约 · 免费<em>学情评估与选课规划</em></div>
+    <div class="cta-sub">并享30分钟免费1对1课程咨询（线上/面谈均可）</div>
+    <div class="cta-tag">线下1对1 / 小班 · 私人辅导</div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-left">王老师国际课程私教 · 案例匿名已授权 · 线下面授1对1/小班</div>
+    <div class="footer-right">STUDY COACH</div>
+  </footer>
+
+</div>
+</body>
+</html>
